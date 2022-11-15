@@ -21,4 +21,4 @@ utils.py: 기타 함수 모듈
 main.py [--train] [--eval] [--target_model rgrs, clsf, joint]
 
 # Acknowledgement
-본 소프트웨어는 2022년도 정부(과학기술정보통신부)의 재원으로 정보통신기획평가원의 지원을 받아 수행된 연구 (2019-0-00330, 영유아/아동의 발달장애 조기선별을 위한 행동·반응 심리인지 AI 기술 개발)의 결과물임.
+This work was supported by the Institute of Information & communications Technology Planning & evaluation (IITP) grant funded by the Korea government (MSIT) (No. 2019-0-00330, Development of AI Technology for Early Screening of Child/Child Autism Spectrum Disorders based on Cognition of the Psychological Behavior and Response).
