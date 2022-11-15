@@ -22,3 +22,14 @@ main.py [--train] [--eval] [--target_model rgrs, clsf, joint]
 
 # Acknowledgement
 This work was supported by the Institute of Information & communications Technology Planning & evaluation (IITP) grant funded by the Korea government (MSIT) (No. 2019-0-00330, Development of AI Technology for Early Screening of Child/Child Autism Spectrum Disorders based on Cognition of the Psychological Behavior and Response).
+
+# Contributors
+김홍국 (hongkook@gist.ac.kr, GIST, 교수)
+
+이정혁 (ljh0412@gist.ac.kr, GIST, 박사과정)
+
+이건우 (geonwoo0801@gist.ac.kr, GIST, 박사과정)
+
+전지민 (~)
+
+박동건 (~)
