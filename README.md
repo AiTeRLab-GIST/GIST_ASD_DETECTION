@@ -15,7 +15,7 @@ load_datasets.py: 처리된 데이터셋을 로드하기 위한 모듈
 main.py: 모델 훈련 및 평가를 위한 소스코드
 model.py: 딥러닝 모델을 불러오기 위한 모듈
 trainer.py: 딥러닝 모델 훈련을 위한 모듈
-utils.py: 기타 함수 모듈
+utils.py: inference 및 데이터 처리를 위한 함수 관련 모듈
 
 # arguments
 main.py [--train] [--eval] [--target_model rgrs, clsf, joint]
