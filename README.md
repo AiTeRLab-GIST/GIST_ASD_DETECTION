@@ -27,6 +27,10 @@ utils.py: inference 및 데이터 처리를 위한 함수 관련 모듈
 # arguments
 main.py [--train] [--eval] [--target_model rgrs, clsf, joint]
 
+예시)
+python main.py --train --target_model clsf
+python main.py --eval --target_model joint
+
 # Acknowledgement
 This work was supported by the Institute of Information & communications Technology Planning & evaluation (IITP) grant funded by the Korea government (MSIT) (No. 2019-0-00330, Development of AI Technology for Early Screening of Child/Child Autism Spectrum Disorders based on Cognition of the Psychological Behavior and Response).
 
