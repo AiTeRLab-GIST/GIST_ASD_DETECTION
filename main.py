@@ -100,11 +100,8 @@ def process():
                     test_result.append(0)
                 results = []
             true_labels.append(labels)
-        #test_result = np.concatenate(test_result, axis=0)
-        pdb.set_trace()
         true_labels = np.concatenate(true_labels) - 1
-        
-        pdb.set_trace()
+
         report = classification_report(true_labels, test_result, digits=4)
         print(report)
     
