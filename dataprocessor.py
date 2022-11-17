@@ -1,5 +1,4 @@
 import os
-import pdb
 import sys
 import numpy as np
 import pandas as pd
@@ -18,7 +17,6 @@ output_column = conf.outputs
 
 class DataProcessor:
     def __init__(self, force_process = False):
-        pdb.set_trace()
         if not self.is_csv() or force_process:
             df = pd.read_csv(f'{conf.save_path}/conf.df_names[0]}')#self.get_dataset_dataframe()
             self.save_db_list_to_csv(df)
