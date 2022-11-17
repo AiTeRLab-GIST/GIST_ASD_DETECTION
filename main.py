@@ -3,12 +3,10 @@ import numpy as np
 import pdb
 import torch
 from tqdm import tqdm
-#os.environ["NCCL_DEBUG"] = "INFO"
 from functools import partial
 
 import conf
 from trainer import Trainer
-#from dataprocessor import DataProcessor
 import utils 
 from dataset import egemaps_dataset as Dataset
 from datasets import load_dataset, load_metric
