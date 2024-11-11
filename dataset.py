@@ -7,9 +7,9 @@ from torch.utils.data import Dataset
 
 class egemaps_dataset(Dataset):
     def __init__(self, df, pad_len = 94):
-        self.fpath = df['path']    # File paths for each sample
-        self.label = df['asd']     # Labels for each sample
-        self.pad_len = pad_len     # Padding length for feature sequences
+        self.fpath = df['path']
+        self.label = df['asd']
+        self.pad_len = pad_len
 
     def __len__(self):
         return len(self.label)
