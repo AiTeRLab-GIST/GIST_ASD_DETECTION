@@ -12,7 +12,6 @@ class egemaps_dataset(Dataset):
         self.pad_len = pad_len
 
     def __len__(self):
-        # Returns the total number of samples in the dataset.
         return len(self.label)
 
     def __getitem__(self, index):
