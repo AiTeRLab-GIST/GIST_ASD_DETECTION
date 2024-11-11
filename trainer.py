@@ -36,7 +36,7 @@ now = dt.now()
 class Trainer:
     def __init__(self, model, train_dataloader, valid_dataloader, target_model, pad_len):
         self.model = model
-        self.n_epoches = 1000
+        self.n_epoches = 500
         self.rgrs_criterion = nn.MSELoss()
         self.clsf_criterion = nn.CrossEntropyLoss(ignore_index=-100, reduction = 'sum')
         self.optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
