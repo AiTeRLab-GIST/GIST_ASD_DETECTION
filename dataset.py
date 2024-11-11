@@ -6,6 +6,7 @@ import torch
 from torch.utils.data import Dataset
 
 class egemaps_dataset(Dataset):
+    # Initialize the dataset with file paths and labels
     def __init__(self, df, pad_len = 94):
         self.fpath = df['path']
         self.label = df['asd'] 
