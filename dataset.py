@@ -7,6 +7,7 @@ from torch.utils.data import Dataset
 
 class egemaps_dataset(Dataset):
     def __init__(self, df, pad_len = 94):
+        self.pad_len = pad_len
         self.fpath = df['path']
         self.label = df['asd'] 
         self.pad_len = pad_len
