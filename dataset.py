@@ -32,5 +32,5 @@ class egemaps_dataset(Dataset):
 
     def padding(self, feat):
         pad_len_feat = np.zeros((self.pad_len, feat.shape[1]))        # Initialize padded array
-        pad_len_feat[:feat.shape[0],:] = feat
+        pad_len_feat[:feat.shape[0],:] = feat                         # Fill in the original features
         return pad_len_feat
