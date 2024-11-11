@@ -7,6 +7,9 @@ from torch.utils.data import Dataset
 
 class egemaps_dataset(Dataset):
     # Initialize the dataset with file paths and labels
+    # Args:
+    #         df (pd.DataFrame): DataFrame containing file paths and labels.
+    #         pad_len (int): The length to which each feature sequence will be padded.
     def __init__(self, df, pad_len = 94):
         self.fpath = df['path']
         self.label = df['asd'] 
