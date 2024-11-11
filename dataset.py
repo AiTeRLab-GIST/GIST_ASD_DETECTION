@@ -26,7 +26,7 @@ class egemaps_dataset(Dataset):
         # Apply padding if the feature sequence is shorter than the specified pad length
         if pad_len != False and len(feat) < pad_len:
             n_padded = pad_len - len(feat)
-            feat = self.padding(feat)
+            feat = self.padding(feat)                # Pad the features up to pad_len
         return torch.from_numpy(feat).type(torch.float32), torch.tensor(label), n_padded
 
     def padding(self, feat):
