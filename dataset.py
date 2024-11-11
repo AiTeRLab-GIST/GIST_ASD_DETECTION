@@ -15,9 +15,6 @@ class egemaps_dataset(Dataset):
         return len(self.label)
 
     def __getitem__(self, index):
-        '''
-        Get a single sample from the dataset with optional padding.
-        '''
         pad_len = self.pad_len
         try:
             feat = pd.read_csv(self.fpath[index], delimiter=';').values
