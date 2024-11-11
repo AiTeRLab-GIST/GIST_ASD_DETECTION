@@ -23,6 +23,7 @@ class egemaps_dataset(Dataset):
         except:
             feat = np.loadtxt(path, delimiter =';')
         label = self.label[index]                    # Retrieve label for the current sample
+        # Apply padding if the feature sequence is shorter than the specified pad length
         if pad_len != False and len(feat) < pad_len:
             n_padded = pad_len - len(feat)
             feat = self.padding(feat)
