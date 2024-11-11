@@ -21,8 +21,6 @@ class egemaps_dataset(Dataset):
     def __getitem__(self, index):
         '''
         Get a single sample from the dataset with optional padding.
-        Args:
-            index (int): Index of the sample to retrieve.
         Returns:
             Tuple[torch.Tensor, torch.Tensor, int]: Tuple containing the feature tensor,
             label tensor, and number of padded frames (if any).
