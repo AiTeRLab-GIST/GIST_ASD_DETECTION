@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 class egemaps_dataset(Dataset):
     def __init__(self, df, pad_len = 94):
         self.fpath = df['path']
-        self.label = df['asd']
+        self.label = df['asd'] 
         self.pad_len = pad_len
 
     def __len__(self):
@@ -28,5 +28,5 @@ class egemaps_dataset(Dataset):
 
     def padding(self, feat):
         pad_len_feat = np.zeros((self.pad_len, feat.shape[1]))
-        pad_len_feat[:feat.shape[0],:] = feat                         # Fill in the original features
+        pad_len_feat[:feat.shape[0],:] = feat
         return pad_len_feat
