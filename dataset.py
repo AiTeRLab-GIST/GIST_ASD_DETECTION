@@ -23,6 +23,9 @@ class egemaps_dataset(Dataset):
         # Get a single sample from the dataset with optional padding.
         # Args:
         #     index (int): Index of the sample to retrieve.
+        # Returns:
+        #     Tuple[torch.Tensor, torch.Tensor, int]: Tuple containing the feature tensor,
+        #     label tensor, and number of padded frames (if any).
         pad_len = self.pad_len
         try:
             feat = pd.read_csv(self.fpath[index], delimiter=';').values
