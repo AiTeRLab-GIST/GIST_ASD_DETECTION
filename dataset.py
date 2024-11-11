@@ -16,6 +16,7 @@ class egemaps_dataset(Dataset):
 
     def __getitem__(self, index):
         pad_len = self.pad_len
+        n_padded = 0  # Initialize padding count
         try:
             feat = pd.read_csv(self.fpath[index], delimiter=';').values
         except:
