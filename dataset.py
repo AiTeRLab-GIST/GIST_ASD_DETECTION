@@ -27,6 +27,7 @@ class egemaps_dataset(Dataset):
         if pad_len != False and len(feat) < pad_len:
             n_padded = pad_len - len(feat)
             feat = self.padding(feat)                # Pad the features up to pad_len
+        # Return features, label, and padding count as PyTorch tensors
         return torch.from_numpy(feat).type(torch.float32), torch.tensor(label), n_padded
 
     def padding(self, feat):
