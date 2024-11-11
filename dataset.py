@@ -39,8 +39,6 @@ class egemaps_dataset(Dataset):
     def padding(self, feat):
         '''
         Pads the feature sequence to the specified pad_len with zeros if it is shorter.
-        Args:
-            features (np.ndarray): Original feature sequence.
         Returns:
             np.ndarray: Padded feature sequence.
         '''
