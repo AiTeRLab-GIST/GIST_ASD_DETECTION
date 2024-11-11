@@ -23,7 +23,7 @@ class egemaps_dataset(Dataset):
         label = self.label[index]
         if pad_len != False and len(feat) < pad_len:
             n_padded = pad_len - len(feat)
-            feat = self.padding(feat)                # Pad the features up to pad_len
+            feat = self.padding(feat)
         return torch.from_numpy(feat).type(torch.float32), torch.tensor(label), n_padded
 
     def padding(self, feat):
