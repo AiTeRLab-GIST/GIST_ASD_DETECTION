@@ -150,7 +150,7 @@ class Trainer:
                 self.save_model(epoch, model, self.optimizer)
             else:
                 patience += 1
-                if patience == 100:
+                if patience == 110:
                     break
                 elif epoch == self.n_epoches - 1:
                     self.save_model('final', model, self.optimizer)
