@@ -107,6 +107,6 @@ class AEBLSTMFT(nn.Module):
         self.BLSTM_clsf = BLSTMClassifier()
 
     def forward(self, x, feat_ext=False):
-        recons, z, _ = self.AEPart(x)
-        logits = self.BLSTM_clsf(z)
-        return recons, z, logits
+        recons, h, _ = self.AEPart(x)
+        logits = self.BLSTM_clsf(h)
+        return recons, h, logits
