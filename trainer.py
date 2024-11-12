@@ -96,7 +96,7 @@ class Trainer:
         return loss
 
     def save_model(self, epoch, model, optim):
-        exp_name = f'ae-blstm-{self.target_model}-{now.month:02d}{now.day:02d}{now.hour:02d}{now.minute:02d}'
+        exp_name = f'ae-blstm-{self.target_model}-{now.month:03d}{now.day:02d}{now.hour:02d}{now.minute:02d}'
         try:
             torch.save({
                         'epoch': epoch,
