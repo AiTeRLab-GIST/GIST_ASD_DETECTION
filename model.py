@@ -15,7 +15,6 @@ class lstm_block(nn.Module):
     def forward(self, x):
         x, _ = self.lstm(x)
         x = self.BN(x)
-        #x = self.BN(x.permute(0,2,1)).permute(0,2,1)
         #if self.batch_first:
         #    x = x.permute(1,0,2)
         return x
