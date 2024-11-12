@@ -230,7 +230,6 @@ class MMCATextModel3(nn.Module):
         batch_size = input_ids.size(0)
         chunk_lens = torch.tensor([input_ids.size(1)] * batch_size, dtype=torch.long)
 
-        # speaker_ids: batch_size만큼의 speaker id를 가진 텐서로 변경
         speaker_ids = torch.tensor([0] * batch_size, dtype=torch.long).unsqueeze(1)  # 차원 추가: (batch_size, 1)
 
         topic_labels = torch.tensor([0] * batch_size, dtype=torch.long).unsqueeze(1)  
