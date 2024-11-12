@@ -225,7 +225,6 @@ class MMCATextModel2(nn.Module):
         
         lstm_output, _ = self.lstm(mmca_output, (h_0, c_0))
         output = self.intent_classifier(self.project(lstm_output[:, -1, :]) + self.adapter(pytorch_output_np))
-        # output = torch.mean(mmca_output, dim=1)
         # output = self.intent_classifier(output)
 
         return output
