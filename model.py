@@ -6,7 +6,7 @@ import torch.nn as nn
 from typing import Optional, Tuple
 from scipy.special import softmax
 from asd_model.model import Wav2Vec2ForSpeechClassification as Model
-from transformers import Wav2Vec2Processor, AutoModel, AutoTokenizer, AutoProcessor
+from transformers import Wav2Vec2Processor, AutoModel, AutoTokenizer, AutoProcessor, AutoConfig
 
 
 class lstm_block(nn.Module):
