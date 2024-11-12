@@ -114,3 +114,31 @@ class AEBLSTMFT(nn.Module):
         recons, h, _ = self.AEPart(x)
         logits = self.BLSTM_clsf(h)
         return recons, h, logits
+
+
+class MMCATextModel(nn.Module):
+    
+    def __init__(self, n_class=1):
+        super().__init__()
+        
+        exp_name = './asd_model/exp/checkpoint'
+        self.config = AutoConfig.from_pretrained(exp_name)
+        self.model = Model.from_pretrained(exp_name, config=self.config).to('cpu')
+        self.processor = Wav2Vec2Processor.from_pretrained('facebook/wav2vec2-base-960h')
+
+        
+        self.model.config.forced_decoder_ids = None
+        self.model.config.suppress_tokens = []
+
+        for param in self.model.wav2vec2.parameters():
+            param.requires_grad = False
+        
+    
+    def forward(self, x):
+        wav = self.processor(x[0], sampling_rate=16000, return_tensors="pt")["input_values"].squeeze(0).to("cuda")
+
+        output = self.model(wav)
+        logits = output.logits.cpu().detach()
+
+
+        return softmax(logits)
