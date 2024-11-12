@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 from typing import Optional, Tuple
 from scipy.special import softmax
+from asd_model.model import Wav2Vec2ForSpeechClassification as Model
+
 
 class lstm_block(nn.Module):
     def __init__(self, in_shape, hidden_size, batch_first):
