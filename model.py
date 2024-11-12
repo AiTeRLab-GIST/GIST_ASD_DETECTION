@@ -211,7 +211,6 @@ class MMCATextModel2(nn.Module):
         input_ids = inputs.input_ids.unsqueeze(1)
         attention_mask = inputs.attention_mask.unsqueeze(1)
         batch_size = input_ids.size(0)
-        # chunk_lens: 각 입력 시퀀스의 길이를 나타내며, batch_size만큼 복사
         chunk_lens = torch.tensor([input_ids.size(1)] * batch_size, dtype=torch.long)
 
         # speaker_ids: batch_size만큼의 speaker id를 가진 텐서로 변경
