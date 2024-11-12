@@ -247,8 +247,5 @@ class MMCATextModel3(nn.Module):
         
         lstm_output, _ = self.lstm(mmca_output, (h_0, c_0))
         output = self.intent_classifier(self.project(lstm_output[:, -1, :]) + (self.adapter(pytorch_output_np)+ self.adapter2(pytorch_output_np2))/2)
-        # output = self.intent_classifier(torch.cat((self.project(lstm_output[:, -1, :]), self.adapter(pytorch_output_np)), dim=1))
-        # output = torch.mean(mmca_output, dim=1)
-        # output = self.intent_classifier(output)
-
+        
         return output
