@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from typing import Optional, Tuple
+from scipy.special import softmax
 
 class lstm_block(nn.Module):
     def __init__(self, in_shape, hidden_size, batch_first):
