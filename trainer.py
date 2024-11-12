@@ -39,7 +39,7 @@ class Trainer:
         self.n_epoches = 500
         self.rgrs_criterion = nn.MSELoss()
         self.clsf_criterion = nn.CrossEntropyLoss(ignore_index=-100, reduction = 'sum')
-        self.optimizer = torch.optim.Adam(model.parameters(), lr = 0.002)
+        self.optimizer = torch.optim.AdamW(model.parameters(), lr = 0.002)
         self.lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, factor = 0.9, patience = 20)
         #torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma = 0.99)
         self.train_dataloader = train_dataloader
