@@ -143,6 +143,14 @@ class MMCATextModel(nn.Module):
 
         return softmax(logits)
 
+def remove_module_prefix(state_dict):
+    """ nn.DataParallel로 저장되었을 때 접두어 'module.' 제거 """
+    new_state_dict = OrderedDict()
+    for k, v in state_dict.items():
+        name = k[7:] if k.startswith('module.') else k  # `module.` 접두어 제거
+        new_state_dict[name] = v
+    return new_state_dict
+
 class MMCATextModel2(nn.Module):
     def __init__(self, n_class=1):
         super().__init__()
