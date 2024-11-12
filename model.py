@@ -3,7 +3,7 @@ import conf
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
+from torch.nn import CrossEntropyLoss, MSELoss
 from typing import Optional, Tuple
 
 class lstm_block(nn.Module):
