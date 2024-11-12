@@ -83,7 +83,7 @@ class Trainer:
             masked_outputs = self.masking_padded(rgrs, n_padded)
             masked_labels = self.masking_labels(labels, n_padded)
             try:
-                loss = 0.9*self.rgrs_criterion(inputs, masked_outputs) + 0.1*self.clsf_criterion(logits.transpose(1,2), masked_labels.to(conf.device))
+                loss = 0.85*self.rgrs_criterion(inputs, masked_outputs) + 0.15*self.clsf_criterion(logits.transpose(1,2), masked_labels.to(conf.device))
             except:
                 pdb.set_trace()
         elif self.target_model == 'clsf':
