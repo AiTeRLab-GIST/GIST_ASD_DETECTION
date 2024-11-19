@@ -88,3 +88,29 @@ class S2ITEXTDataset(torch.utils.data.Dataset):
         intent_class = int(label_to_int[intent_class])
         return (wav_tensor, text), intent_class
         
+class S2ITEXTDataset2(torch.utils.data.Dataset):
+    def __init__(self, csv_path=None, wav_dir_path=None):
+        self.df1 = pd.read_csv(csv_path, sep='\t', encoding='utf-8', header=None)
+        self.wav_df = pd.read_csv(wav_dir_path, sep=' ', encoding='utf-8', header=None)
+        self.wav_df = self.wav_df.iloc[:, 1:]
+        self.df = pd.concat([self.df1, self.wav_df], axis=1)
+        self.cls_dict = create_dict_from_text(csv_path.replace('train_da_sum_sp', 'train_asr2cls_sp').replace('test_da', 'cls_test'))
+    
+    def __len__(self):
+        return len(self.df)
+    
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        label_to_int = {'ASD': 1, 'TD': 0, 'OD': 2}
+        row = self.df.iloc[idx]
+        intent_class = row[0].split(' ')[-1]
+        text = ' '.join(row[0].split(' ')[1:-1])
+        wav_path = row[1].replace('train_da_sum_sp', 'train_asr2cls_sp').replace('test_da', 'cls_test')
+        cls_text = self.cls_dict[row[0].split(' ')[0]]
+        text = text.replace(cls_text, '')
+        wav_tensor, _= torchaudio.load(wav_path)
+
+        intent_class = int(label_to_int[intent_class])
+        return (wav_tensor, cls_text, text), intent_class
+    
