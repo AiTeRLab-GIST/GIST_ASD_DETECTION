@@ -19,7 +19,6 @@ def infer(audio_file_path, model_name="audio_model", server_url="localhost:8000"
     # Load and preprocess the audio file
     audio_data = load_audio(audio_file_path)
     
-    # Flatten the audio data to a 1D array for HTTP/REST request
     
     # Create Triton client
     try:
