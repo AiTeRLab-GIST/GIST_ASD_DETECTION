@@ -17,10 +17,7 @@ from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_sc
 #         csv_path="dump/raw/test_da/text",
 #         wav_dir_path="dump/raw/test_da/wav.scp",
 #     )
-# dataset = S2ITEXTDataset(
-#         csv_path="dump/raw/cls_test/text",
-#         wav_dir_path="dump/raw/cls_test/wav.scp",
-#     )
+
 
 dataset = S2ITEXTDataset(
     csv_path="dump/raw/train_asr2cls_sp/text_dev4",
