@@ -19,7 +19,6 @@ def infer(audio_file_path, model_name="audio_model", server_url="localhost:8000"
     # Load and preprocess the audio file
     audio_data = load_audio(audio_file_path)
     
-    
     # Create Triton client
     try:
         triton_client = httpclient.InferenceServerClient(url=server_url, verbose=True)
