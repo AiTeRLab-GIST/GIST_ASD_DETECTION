@@ -38,7 +38,6 @@ preds = []
 
 for x, label in tqdm(testloader):
     model.to("cuda")
-    # y_hat_l, _, _, _, _, _, _, _ = model((x[0].to("cuda"), x[1], x[2].to("cuda")))
     y_hat_l = model((x[0].to("cuda"), x[1]))
     
     probs = F.sigmoid(y_hat_l[0][0])
