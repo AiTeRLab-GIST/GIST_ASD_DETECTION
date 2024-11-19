@@ -34,8 +34,6 @@ preds = []
 for x, label in tqdm(testloader):
     model.to("cuda")
     probs = model((x[0].to("cuda"), x[1]))[0]
-    
-    # probs = F.sigmoid(y_hat_l[0][0])
     pred = probs.round().astype(int)
     trues.append(label[0].detach().cpu().numpy().astype(int))
     preds.append(pred)
