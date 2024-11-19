@@ -78,7 +78,7 @@ class TritonPythonModel:
         onnx_result = self.ged_session.run(None, {'input_ids': ged_tokens['input_ids'], 
                                                   'attention_mask': ged_tokens['attention_mask']})
         onnx_pred_class = np.argmax(onnx_result[0], axis=1)[0]
-        onnx_pred_label = "문법 오류 없음" if onnx_pred_class == 0 else "문법 오류 있음"
+        onnx_pred_label = "상동행동 없음" if onnx_pred_class == 0 else "상동행동 있음"
         return onnx_pred_label
     
     def dac_inference(self, sentence):
