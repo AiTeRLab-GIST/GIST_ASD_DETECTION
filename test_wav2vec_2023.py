@@ -13,10 +13,6 @@ from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
 from tqdm import tqdm
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 
-# dataset = S2ITEXTDataset2(
-#         csv_path="dump/raw/test_da/text",
-#         wav_dir_path="dump/raw/test_da/wav.scp",
-#     )
 # dataset = S2ITEXTDataset(
 #         csv_path="dump/raw/cls_test/text",
 #         wav_dir_path="dump/raw/cls_test/wav.scp",
