@@ -14,7 +14,6 @@ import torch.nn.functional as F
 # from trainer_mtl_acme_whisper_cv import LightningModel
 from trainer_mmca_etri_cv import LightningModel
 # from trainer_mmca_whisper_peft import LightningModel
-# from trainer_mtl_psd_whisper_cv import LightningModel
 
 from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
 
