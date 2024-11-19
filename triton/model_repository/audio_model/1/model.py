@@ -19,7 +19,7 @@ class TritonPythonModel:
     def initialize(self, args):
         # 모델 및 파이프라인 초기화
         path = os.path.join(args["model_repository"], args["model_version"])
-        self.pipeline = Pipeline.from_pretrained("pyannote/voice-activity-detection", use_auth_token="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")
+        self.pipeline = Pipeline.from_pretrained("pyannote/voice-activity-detection", use_auth_token="YOUR_HUGGINGFACE_TOKEN")
         HYPER_PARAMETERS = {
             # remove speech regions shorter than that many seconds.
             "min_duration_on": 0.5,
