@@ -12,7 +12,6 @@ import torch.nn.functional as F
 # choose the model
 
 from model import MMCATextModel
-# from trainer_mtl_psd_whisper_cv import LightningModel
 
 from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
 
