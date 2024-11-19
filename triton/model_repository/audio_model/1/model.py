@@ -106,7 +106,6 @@ class TritonPythonModel:
             
             ## Sliding the audio with window_size 1s, hop_size 0.128s or hop_size 1s
             # total_duration = audio_data.shape[0] / self.sampling_rate
-            # hop_size = int(self.frame_size)  # 0.128 seconds hop size
             
             output = self.pipeline({"waveform": input_audio_tensor, "sample_rate": self.sampling_rate})
             segments = [self.time_range_to_frame_size(speech.start, speech.end, self.sampling_rate) for speech in output.get_timeline().support()]
