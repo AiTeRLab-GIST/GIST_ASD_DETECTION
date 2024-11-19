@@ -103,9 +103,7 @@ class TritonPythonModel:
             
             audio_data = input_audio_tensor.squeeze(0)
             input_audio_tensor = torch.Tensor(input_audio_tensor)
-            
-            ## Sliding the audio with window_size 1s, hop_size 0.128s or hop_size 1s
-            
+                        
             output = self.pipeline({"waveform": input_audio_tensor, "sample_rate": self.sampling_rate})
             segments = [self.time_range_to_frame_size(speech.start, speech.end, self.sampling_rate) for speech in output.get_timeline().support()]
             asr_output = []
