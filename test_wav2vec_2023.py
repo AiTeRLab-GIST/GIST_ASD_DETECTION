@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from model import MMCATextModel
-
 from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
 
 from tqdm import tqdm
