@@ -33,12 +33,6 @@ class egemaps_dataset(Dataset):
         pad_len_feat[:feat.shape[0],:] = feat
         return pad_len_feat
 
-def collate_fn(batch):
-    (seq, label) = zip(*batch)
-    seql = [x.reshape(-1,) for x in seq]
-    data = rnn_utils.pad_sequence(seql, batch_first=True, padding_value=0)
-    label = torch.tensor(list(label))
-    return data, label
 
 def collate_fn2(batch):
     (seq, label) = zip(*batch)
