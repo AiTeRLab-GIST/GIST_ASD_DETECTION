@@ -50,14 +50,6 @@ def collate_fn4(batch):
     label = torch.tensor(list(label))
     return (data, list(cls_text), list(text)), label
 
-def collate_fn3(batch):
-    (seq, label) = zip(*batch)
-    (wav, text, pos_text, neg_text) = zip(*seq)
-    seql = [x[0].reshape(-1,) for x in wav]
-    data = rnn_utils.pad_sequence(seql, batch_first=True, padding_value=0)
-    label = torch.tensor(list(label))
-    return (data, list(text), list(pos_text), list(neg_text)), label
-
 
 def pad_or_truncate_list(input_list, desired_length=1500, pad_value=0):
     # 리스트의 현재 길이
