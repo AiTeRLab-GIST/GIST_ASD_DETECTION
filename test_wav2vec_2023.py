@@ -11,7 +11,6 @@ import torch.nn.functional as F
 
 # choose the model
 
-# from trainer_mtl_acme_whisper_cv import LightningModel
 from model import MMCATextModel
 # from trainer_mtl_psd_whisper_cv import LightningModel
 
