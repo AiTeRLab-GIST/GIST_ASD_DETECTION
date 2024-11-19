@@ -81,7 +81,6 @@ class S2ITEXTDataset(torch.utils.data.Dataset):
         intent_class = row[0].split(' ')[-1]
         text = ' '.join(row[0].split(' ')[1:-1])
         wav_path = row[1]
-        # wav_path = row[1]
 
         wav_tensor, _= torchaudio.load(wav_path)
 
