@@ -136,10 +136,7 @@ if __name__ == "__main__":
         #     csv_path="dump/raw/train_asr2cls_sp/text_train"+str(i),
         #     wav_dir_path="dump/raw/train_asr2cls_sp/wav_train"+str(i)+".scp",
         # )
-        # val_dataset = S2ITEXTDataset(
-        #     csv_path="dump/raw/train_asr2cls_sp/text_dev"+str(i),
-        #     wav_dir_path="dump/raw/train_asr2cls_sp/wav_dev"+str(i)+".scp",
-        # )     
+   
 
         # dataloaders
         trainloader = torch.utils.data.DataLoader(
