@@ -128,7 +128,6 @@ if __name__ == "__main__":
             wav_dir_path="dump/raw/train_da_sum_sp/wav_dev"+str(i)+".scp",
         ) 
 
-
         # dataloaders
         trainloader = torch.utils.data.DataLoader(
                 train_dataset, 
@@ -148,7 +147,7 @@ if __name__ == "__main__":
         model = LightningModel()
 
         # update the logger to Wandb or Tensorboard
-        run_name = "cls-mmca-text-wav2vec5_"+str(i)
+        run_name = "cls-mmca-text-wav2vec_"+str(i)
         logger = WandbLogger(
             name=run_name,
             project='S2I-baseline'+str(i)
