@@ -52,8 +52,6 @@ class LightningModel(pl.LightningModule):
         asr_output = self(x)
 
         asd_loss = self.loss_fn(asr_output, y.reshape(-1,1).float())
-        
-
         total_loss = asd_loss
         
         acc = (self.sigmoid(asr_output).squeeze().round() == y).float().mean()
