@@ -8,9 +8,6 @@ sys.path.append("/root/Speech2Intent/s2i-baselines")
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-# choose the model
-
 from model import MMCATextModel
 
 from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
