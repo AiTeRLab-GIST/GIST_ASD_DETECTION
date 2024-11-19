@@ -70,8 +70,6 @@ class LightningModel(pl.LightningModule):
         y = y.view(-1)
 
         asr_output = self(x)
-
-
         asd_loss = self.loss_fn(asr_output, y.reshape(-1,1).float())
         
         total_loss = asd_loss
