@@ -8,13 +8,8 @@ sys.path.append("/root/Speech2Intent/s2i-baselines")
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-# choose the model
-
 from trainer_mmca_etri_cv import LightningModel
-
 from dataset import S2ITEXTDataset, S2ITEXTDataset2, collate_fn2, collate_fn4
-
 from tqdm import tqdm
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
 
