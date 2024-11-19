@@ -1,6 +1,5 @@
 from model import MMCATextModel2, MMCATextModel3
 from dataset import S2ITEXTDataset2, S2ITEXTDataset, collate_fn2, collate_fn4
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
