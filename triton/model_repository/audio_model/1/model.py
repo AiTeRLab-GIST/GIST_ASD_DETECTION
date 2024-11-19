@@ -1,4 +1,3 @@
-# Triton inference 서버 내에서 pyannote.audio, transformers, optimum[onnxruntime], espnet_onnx 순으로 pip install 반드시 필요
 import sys
 sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf-8', buffering=1)
 import json
