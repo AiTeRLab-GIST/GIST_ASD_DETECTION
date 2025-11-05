@@ -44,3 +44,5 @@ This work was supported by the Institute of Information & communications Technol
 전지민 (jiminbot20@gm.gist.ac.kr, GIST, 박사과정)
 
 박동건  (dongkeon@gist.ac.kr, GIST, 통합과정)
+
+정승훈  (zldzmfoq12@gm.gist.ac.kr, GIST, 통합과정)
