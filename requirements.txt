@@ -8,3 +8,11 @@ torchaudio==0.13.0
 torchvision==0.14.0
 tqdm==4.64.1
 transformers==4.24.0
+scikit-learn
+matplotlib
+seaborn
+librosa
+scipy
+pytorch-lightning
+tensorboard
+jupyterlab
