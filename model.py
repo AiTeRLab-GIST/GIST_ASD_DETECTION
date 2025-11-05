@@ -335,3 +335,230 @@ class MMCATextModel3(nn.Module):
         output = self.intent_classifier(self.project(lstm_output[:, -1, :]) + (self.adapter(pytorch_output_np)+ self.adapter2(pytorch_output_np2))/2)
         
         return output
+
+
+class CMMOEModel(nn.Module):
+    def __init__(self, bert_name):
+        super().__init__()
+        self.processor = WhisperProcessor.from_pretrained('openai/whisper-small', language='Korean', task="transcribe")
+        self.model = WhisperModel.from_pretrained('openai/whisper-small', output_hidden_states=True).encoder
+        if 'albert' in bert_name:
+            self.tokenizer = BertTokenizerFast.from_pretrained(bert_name)
+        elif 'electra' in bert_name:
+            self.tokenizer = ElectraTokenizerFast.from_pretrained(bert_name)
+        else:
+            self.tokenizer = AutoTokenizer.from_pretrained(bert_name)
+        self.bert = AutoModel.from_pretrained(bert_name)
+
+        for param in self.model.parameters():
+            param.requires_grad = False
+
+        for param in self.model.layers.parameters():
+            param.requires_grad = True
+        
+        for param in self.bert.parameters():
+            param.requires_grad = False
+        
+        for param in self.bert.encoder.parameters():
+            param.requires_grad = True
+        
+        self.lstm = nn.LSTM(input_size=768, hidden_size=768,
+                                num_layers=1, bidirectional=True, batch_first=True)
+
+        self.project = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.SiLU()
+        )
+        # self.sap = SelfAttentionPooling(768)
+        # self.silu = nn.SiLU()
+        self.intent_classifier1 = nn.Sequential(
+            nn.Linear(768, 1),
+        )
+        self.intent_classifier2 = nn.Sequential(
+            # nn.SiLU(),
+            nn.Linear(768, 1),
+        )
+
+        self.gate = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.ReLU(),
+            nn.Linear(768, 2),
+            nn.Softmax(dim=-1),  # Outputs probabilities
+        )
+
+    def forward(self, x):
+        input_features = [{"input_features": feature} for feature in x[0]]
+
+        batch = self.processor.feature_extractor.pad(input_features, return_tensors="pt").input_features
+
+        result = self.model(batch.to("cuda")).last_hidden_state
+        encoded = self.tokenizer(list(x[1]), padding=True, truncation=True, max_length=100, return_tensors="pt").to(device)
+        nlp_embed = self.bert(**encoded).last_hidden_state[:,0]
+
+        h_0 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda") 
+        c_0 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda")  
+        lstm_asr_output, _ = self.lstm(result, (h_0, c_0))
+        # asr_embed = self.project(self.silu(lstm_asr_output[:, -1, :]))
+        asr_embed = self.project(lstm_asr_output[:, -1, :])
+        combined_features = torch.cat((asr_embed, nlp_embed), dim=1)  # Concatenate embeddings
+        gate_weights = self.gate(combined_features)  # [batch_size, 2]        
+        asr_output = self.intent_classifier1(asr_embed)
+        nlp_output = self.intent_classifier2(nlp_embed)
+        final_output = gate_weights[:, 0].unsqueeze(1) * asr_output + gate_weights[:, 1].unsqueeze(1) * nlp_output
+
+        g_a, g_l = gate_weights[:, 0], gate_weights[:, 1]
+
+        loss_reg = torch.mean(g_a ** 2 + g_l ** 2 - g_a * g_l)
+
+        return asr_output, final_output, asr_embed, nlp_embed, loss_reg
+    
+    
+class CMMOEModel2(nn.Module):
+    def __init__(self, bert_name):
+        super().__init__()
+        self.processor = WhisperProcessor.from_pretrained('openai/whisper-small', language='Korean', task="transcribe")
+        self.model = WhisperModel.from_pretrained('openai/whisper-small', output_hidden_states=True).encoder
+        if 'albert' in bert_name:
+            self.tokenizer = BertTokenizerFast.from_pretrained(bert_name)
+        elif 'electra' in bert_name:
+            self.tokenizer = ElectraTokenizerFast.from_pretrained(bert_name)
+        else:
+            self.tokenizer = AutoTokenizer.from_pretrained(bert_name)
+        self.bert = AutoModel.from_pretrained(bert_name)
+
+        for param in self.model.parameters():
+            param.requires_grad = False
+
+        for param in self.model.layers.parameters():
+            param.requires_grad = True
+        
+        for param in self.bert.parameters():
+            param.requires_grad = False
+        
+        for param in self.bert.encoder.parameters():
+            param.requires_grad = True
+        
+        # self.sap = SelfAttentionPooling(768)
+        # self.silu = nn.SiLU()
+        self.intent_classifier1 = nn.Sequential(
+            nn.Linear(768, 1),
+        )
+        self.intent_classifier2 = nn.Sequential(
+            # nn.SiLU(),
+            nn.Linear(768, 1),
+        )
+
+        self.gate = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.ReLU(),
+            nn.Linear(768, 2),
+            nn.Softmax(dim=-1),  # Outputs probabilities
+        )
+
+    def forward(self, x):
+        input_features = [{"input_features": feature} for feature in x[0]]
+
+        batch = self.processor.feature_extractor.pad(input_features, return_tensors="pt").input_features
+
+        result = self.model(batch.to("cuda")).last_hidden_state
+        encoded = self.tokenizer(list(x[1]), padding=True, truncation=True, max_length=100, return_tensors="pt").to(device)
+        nlp_embed = self.bert(**encoded).last_hidden_state[:,0]
+
+        asr_embed = result[:,0]
+        combined_features = torch.cat((asr_embed, nlp_embed), dim=1)  # Concatenate embeddings
+        gate_weights = self.gate(combined_features)  # [batch_size, 2]        
+        asr_output = self.intent_classifier1(asr_embed)
+        nlp_output = self.intent_classifier2(nlp_embed)
+        final_output = gate_weights[:, 0].unsqueeze(1) * asr_output + gate_weights[:, 1].unsqueeze(1) * nlp_output
+        
+        g_a, g_l = gate_weights[:, 0], gate_weights[:, 1]
+        loss_reg = torch.mean(g_a ** 2 + g_l ** 2 - g_a * g_l)
+        
+        return asr_output, final_output, asr_embed, nlp_embed, loss_reg
+    
+
+class CMMOEModel3(nn.Module):
+    def __init__(self, bert_name):
+        super().__init__()
+        self.processor = WhisperProcessor.from_pretrained('openai/whisper-small', language='Korean', task="transcribe")
+        self.model = WhisperModel.from_pretrained('openai/whisper-small', output_hidden_states=True).encoder
+        if 'albert' in bert_name:
+            self.tokenizer = BertTokenizerFast.from_pretrained(bert_name)
+        elif 'electra' in bert_name:
+            self.tokenizer = ElectraTokenizerFast.from_pretrained(bert_name)
+        else:
+            self.tokenizer = AutoTokenizer.from_pretrained(bert_name)
+        self.bert = AutoModel.from_pretrained(bert_name)
+        for param in self.model.parameters():
+            param.requires_grad = False
+
+        for param in self.model.layers.parameters():
+            param.requires_grad = True
+        
+        for param in self.bert.parameters():
+            param.requires_grad = False
+        
+        for param in self.bert.encoder.parameters():
+            param.requires_grad = True
+        
+        self.lstm = nn.LSTM(input_size=768, hidden_size=768,
+                                num_layers=1, bidirectional=True, batch_first=True)
+
+        self.lstm_t= nn.LSTM(input_size=768, hidden_size=768,
+                                num_layers=1, bidirectional=True, batch_first=True)
+
+        self.project = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.ReLU()
+
+        )
+        self.project2 = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.ReLU()
+        )
+        # self.sap = SelfAttentionPooling(768)
+        # self.silu = nn.SiLU()
+        self.intent_classifier1 = nn.Sequential(
+            nn.Linear(768, 1),
+        )
+        self.intent_classifier2 = nn.Sequential(
+            nn.Linear(768, 1),
+        )
+
+        self.gate = nn.Sequential(
+            nn.Linear(768*2, 768),
+            nn.ReLU(),
+            nn.Linear(768, 2),
+            nn.Softmax(dim=-1),  # Outputs probabilities
+        )
+
+    def forward(self, x):
+        input_features = [{"input_features": feature} for feature in x[0]]
+
+        batch = self.processor.feature_extractor.pad(input_features, return_tensors="pt").input_features
+
+        result = self.model(batch.to("cuda")).last_hidden_state
+        encoded = self.tokenizer(list(x[1]), padding=True, truncation=True, max_length=100, return_tensors="pt").to(device)
+        nlp_embed = self.bert(**encoded).last_hidden_state
+        
+        h_1 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda") 
+        c_1 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda")
+        lstm_text_output, _ = self.lstm_t(nlp_embed, (h_1, c_1))
+        nlp_embed = self.project2(lstm_text_output[:, -1, :])  
+
+        h_0 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda") 
+        c_0 = Variable(torch.zeros(2, x[0].size(0), 768)).to("cuda")  
+        lstm_asr_output, _ = self.lstm(result, (h_0, c_0))
+        # asr_embed = self.project(self.silu(lstm_asr_output[:, -1, :]))
+        asr_embed = self.project(lstm_asr_output[:, -1, :])
+        combined_features = torch.cat((asr_embed, nlp_embed), dim=1)  # Concatenate embeddings
+        gate_weights = self.gate(combined_features)  # [batch_size, 2]        
+        asr_output = self.intent_classifier1(asr_embed)
+        nlp_output = self.intent_classifier2(nlp_embed)
+        final_output = gate_weights[:, 0].unsqueeze(1) * asr_output + gate_weights[:, 1].unsqueeze(1) * nlp_output
+
+        g_a, g_l = gate_weights[:, 0], gate_weights[:, 1]
+
+        loss_reg = torch.mean(g_a ** 2 + g_l ** 2 - g_a * g_l)
+
+        return asr_output, final_output, asr_embed, nlp_embed, loss_reg
